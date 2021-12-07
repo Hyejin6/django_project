@@ -1,0 +1,14 @@
+<!-- 템플릿 확장 (현재 사용 중임) -->
+{% extends 'blog/base.html' %} <!-- 상속 받기 -->
+
+{% block content %}
+{% for post in posts %} <!-- 템플릿 태그 사용 - post라는 객체를 하나씩 순회하면서 아래 내용 반복-->
+    <div class="post">
+        <div class="date"><p>published: {{ post.published_date }}</p> <!-- post의 published_date -->
+        </div>
+        <h1><a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1> <!-- {상세페이지로 연결하는 링크 생성} + 제목 -->
+        <p>{{ post.text|linebreaksbr }}</p> <!-- 내용 -->
+    </div>
+{% endfor %} <!-- 템플릿 태그 닫기 -->
+{% endblock %}
+

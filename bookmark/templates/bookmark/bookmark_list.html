@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Bookmark List{% endblock %}
+
+{% block content %}
+<div class = "btn-group">
+    <a href="{% url 'bookmark:add' %}" class="btn btn-info">Add Bookmark</a>
+</div>
+<p></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Site</th>
+            <th scope="col">URL</th>
+            <th scope="col">Modify</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for bookmark in object_list %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'bookmark:detail' pk=bookmark.id %}">{{bookmark.site_name}}</a></td>
+                <td><a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a> </td>
+                <td><a href="{% url 'bookmark:update' pk=bookmark.id %}" class="btn btn-success btn-sm">Modify</a></td>
+                <td><a href="{% url 'bookmark:delete' pk=bookmark.id %}" class="btn btn-danger btn-sm">Delete</a> </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block pagination %} <!--페이징 기능 -->
+
+{% if is_paginated %} <!-- 지정한 북마크 갯수가 되었을 때 참(True)이 되어서 아래 내용 코드가 실행됨 -->
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if page_obj.has_previous %} <!-- 이전 페이지 버튼을 만들어주는 것 + (previous 링크텍스트는 탭버튼이 동작하지 않음)-->
+            <li class="page-item"> <!-- 이전 페이지가 존재하면 -->
+                <!-- tabindex="-1"은 탭으로 이동x 마우스로 클릭할 수 있게 함 -->
+                <a class="page-link" href="{% url 'bookmark:list' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+            </li>
+        {% else %} <!-- 이전 페이지가 존재하지 않으면 -->
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Previous</a> <!-- #을 링크로 줘서 아무데도 이동하지 않게 함 -->
+            </li>
+        {% endif %}
+
+        {% for object in page_obj.paginator.page_range %} <!--  page_obj. 객체가 갖고있는 range를 순회 및 page에 할당되는 번호들 추가-->
+            <!-- 만약 지금 있는 페이지의 number와 가리키는 페이지의 number가 같을 떄는 클릭이 되지 않도록 함-->
+            <li class="page-item {% if page_obj.number == forloop.counter %}disabled{% endif %}">
+                <a class="page-link" href="{{ request.path }}?page={{ forloop.counter }}">{{ forloop.counter }}</a> <!-- 하나씩 증가하는 숫자 형태로 페이지가 나오도록 -->
+            </li>
+        {% endfor %}
+
+        {% if page_obj.has_next %} <!-- 다음 페이지가 존재할 때 next 버튼을 만들어주는 것 -->
+            <li class="page-item">
+                <a class="page-link" href="{% url 'bookmark:list' %}?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+        {% else %} <!-- next 페이지가 없을 때 #을 링크로 줘서 아무데도 이동하지 않게 함-->
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}
+
+{% endblock %}

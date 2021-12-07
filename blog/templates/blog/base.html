@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+    <!-- 부트스트랩 이용하여 디자인 바꾸기 -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+    <title>Title</title>
+
+</head>
+<body>
+
+<div class="page-header">
+    {% if user.is_authenticated %} <!-- 로그인한 사람만 글을 등록하게 만들기 -->
+    <!-- base.html에 구현해야 모든 화면에서 보이므로 어느곳에서든 글추가 가능 -->
+    <a href="{% url 'blog:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a> <!-- post_new로 연결 및 (+)글 추가 아이콘 생성 -->
+    {% endif %}
+    <h1><a href="{% url 'blog:post_list' %}">HYWU Blog</a></h1>  <!--HYWU Blog 라는 제목의 하이퍼링크 설정 및 post_list로 연결 -->
+    <!-- ↑ HYWU Blog 타이틀(제목)을 누르면 항상 메인 post_list로 갈 수 있게 함  -->
+</div>
+
+<div class="content container">
+    <div class="row">
+        <div class="col-md-8">
+            {% block content %} <!-- 템플릿 태그 사용 - post라는 객체를 하나씩 순회하면서 아래 내용 반복-->
+            {% endblock %} <!-- 템플릿 태그 닫기 -->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %} Confirm Delete {% endblock %}
+
+{% block content %}
+<form action ="" method="post">
+    {% csrf_token %} <!-- form 태그 쓸 때 항상 같이 써야함. 외부로부터 공격 막는 용도 -->
+    <div class="alert alert-danger">Do you want to delete Bookmark "{{object}}"?</div> <!-- 삭제 전 확인 문구 -->
+    <input type="submit" value="Delete" class="btn btn-danger"> <!-- 버튼 추가 -->
+</form>
+{% endblock %}

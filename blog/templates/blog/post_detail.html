@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %} <!-- blog/base.html을 상속 -->
+
+{% block content %}
+<div class="post">
+    {% if post.published_date %} <!-- published_date가 있을 때 -->
+        <div class="date"> <!-- date 를 출력  -->
+            {{ post.published_date }}
+        </div>
+    {% endif %}
+
+    {% if user.is_authenticated %} <!-- 로그인한 사람만 글을 등록하게 만들기 -->
+    <!-- ↓ 블로그의 글을 수정하는 펜슬모양의 버튼 아이콘 생성 : detail화면에서 아이콘 생성. 버튼을 누르면 post_edit로 넘어감 -->
+    <a class="btn btn-default" href="{% url 'blog:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+    {% endif %}
+    <h1>{{ post.title }}</h1>   <!-- 제목 출력 -->
+    <p>{{ post.text|linebreaksbr }}</p> <!-- 내용출력, linebreaksbr은 줄바꿈문자가 들어있을때 줄바꿔주는 역할 즉 <br>태그로 변경해주는 역할을 함-->
+
+</div>
+{% endblock %}

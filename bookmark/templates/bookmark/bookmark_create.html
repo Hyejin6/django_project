@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Bookmark Add
+{% endblock %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %} <!-- 해커로부터 공격 막기 -->
+    {{form.as_p}} <!-- form을 p 태그로 감싸서 렌더링 -->
+    <input type="submit" value="Add" class="btn btn-info btn-sm">
+</form>
+{% endblock %}

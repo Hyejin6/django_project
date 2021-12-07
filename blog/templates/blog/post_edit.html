@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %} <!-- blog/base.html 상속 -->
+
+{% block content %}
+    <h1>New post</h1> <!-- 상단에 타이틀 -->
+    <form method="POST" class="post-form">{% csrf_token %} <!-- form추가 - form에 대한 메서드를 POST로 / {% csrf_token %} : 해커들의 공격을 막기 위한 토큰 -->
+        {{ form.as_p }} <!-- 장고의 model form - form의  form.as_p를 통해 p태그로 묶인 폼형태의 html을 만들기 위함 -->
+        <button type="submit" class="save btn btn-default">Save</button> <!-- save 형식의 버튼 추가  -->
+    </form>
+
+{% endblock %}
