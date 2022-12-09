@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1> {{question.question_text}} </h1> <!-- 질문 보여주기 -->
+    <ul>
+        {% for choice in question.choice_set.all %} <!-- 반복문 - 전체 답변항목들을 하나씩 출력 -->
+        <!-- 답변과 선택 갯수 보여주기 / pluralize : 복수일경우 표시되게  -->
+        <li>{{choice.choice_text}} -- {{choice.votes}} vote{{choice.votes|pluralize}}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'polls:detail' question.id %}">Vote again?</a> <!-- 상세화면으로 이동 -->
+    <a href="{% url 'polls:chart' question.id %}">Chart</a> <!-- 차트로 이동 -->
+</body>
+</html>
